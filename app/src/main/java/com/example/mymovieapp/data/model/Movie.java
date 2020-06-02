@@ -117,6 +117,11 @@ public class Movie
         return backdropImagePath;
     }
 
+    public void setWatched(boolean watched)
+    {
+        this.watched = watched;
+    }
+
     public boolean isWatched()
     {
         return watched;

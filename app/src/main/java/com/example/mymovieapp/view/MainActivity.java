@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_share:
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:pele_adriana@yahoo.com"));
                 intent.putExtra(Intent.EXTRA_SUBJECT, "My Movie List");
-                intent.putExtra(Intent.EXTRA_TEXT, "Hi there! Checkout my favorites movie list");
+                intent.putExtra(Intent.EXTRA_TEXT, "Hi there! Checkout my favorite movie list");
                 startActivity(intent);
         }
 
