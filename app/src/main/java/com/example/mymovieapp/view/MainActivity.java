@@ -13,9 +13,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.mymovieapp.R;
-import com.example.mymovieapp.view.favorites.FavoritesFragment;
-import com.example.mymovieapp.view.home.HomeFragment;
-import com.example.mymovieapp.view.search.SearchFragment;
+import com.example.mymovieapp.view.fragments.favorites.FavoritesFragment;
+import com.example.mymovieapp.view.fragments.home.HomeFragment;
+import com.example.mymovieapp.view.fragments.search.SearchFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener

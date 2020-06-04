@@ -1,4 +1,4 @@
-package com.example.mymovieapp.view.home;
+package com.example.mymovieapp.view.fragments.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

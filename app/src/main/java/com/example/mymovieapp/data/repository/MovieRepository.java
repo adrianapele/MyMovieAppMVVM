@@ -60,8 +60,8 @@ public class MovieRepository
     {
         final MutableLiveData<List<Movie>> data = new MutableLiveData<>();
 
-        retrofitClient.moviesApi()
-                .searchMovie(RetrofitClient.API_KEY, query)
+        retrofitClient
+                .searchMovie(query)
                 .enqueue(new Callback<MovieResponse>()
                 {
                     @Override
@@ -96,8 +96,8 @@ public class MovieRepository
     {
         final MutableLiveData<List<Movie>> data = new MutableLiveData<>();
 
-        retrofitClient.moviesApi()
-                .getMovies(RetrofitClient.API_KEY)
+        retrofitClient
+                .getMovies()
                 .enqueue(new Callback<MovieResponse>()
                 {
                     @Override

@@ -1,4 +1,4 @@
-package com.example.mymovieapp.view.favorites;
+package com.example.mymovieapp.view.fragments.favorites;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
