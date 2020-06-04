@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -30,13 +31,17 @@ import java.util.stream.Collectors;
 public class SearchFragment extends Fragment implements SearchAdapter.RecyclerViewClickListener
 {
     private SearchViewModel searchViewModel;
+    private ProgressBar progressBar;
+    private RecyclerView myRecyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         final View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
-        RecyclerView myRecyclerView = rootView.findViewById(R.id.recyclerViewId);
+        progressBar = rootView.findViewById(R.id.progressBarId);
+
+        myRecyclerView = rootView.findViewById(R.id.recyclerViewId);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         final SearchAdapter searchAdapter = new SearchAdapter();
@@ -68,8 +73,16 @@ public class SearchFragment extends Fragment implements SearchAdapter.RecyclerVi
             @Override
             public void onClick(View v)
             {
+                progressBar.setVisibility(View.VISIBLE);
+                myRecyclerView.setEnabled(false);
                 final LiveData<List<Movie>> movieListLiveData = searchViewModel.searchMovies(searchEditText.getText().toString());
-                movieListLiveData.observe(getViewLifecycleOwner(), searchAdapter::submitList);
+                movieListLiveData.observe(getViewLifecycleOwner(), movies ->
+                {
+                    progressBar.setVisibility(View.GONE);
+                    myRecyclerView.setEnabled(true);
+                    
+                    searchAdapter.submitList(movies);
+                });
             }
         });
 
