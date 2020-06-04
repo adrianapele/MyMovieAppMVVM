@@ -43,7 +43,7 @@ public class SearchFragment extends Fragment implements SearchAdapter.RecyclerVi
         searchAdapter.setOnRecyclerViewItemClickListener(this);
         myRecyclerView.setAdapter(searchAdapter);
 
-        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+        searchViewModel = new ViewModelProvider(getActivity()).get(SearchViewModel.class);
 
         final ImageView searchIcon = rootView.findViewById(R.id.searchImageViewId);
         final EditText searchEditText = rootView.findViewById(R.id.searchMovieEditTextId);
@@ -79,6 +79,7 @@ public class SearchFragment extends Fragment implements SearchAdapter.RecyclerVi
     @Override
     public void onRecyclerViewItemClick(View view, Movie movie)
     {
+        searchViewModel.setCurrentSelectedMovie(movie);
         AppCompatActivity activity = (AppCompatActivity) view.getContext();
         final FragmentManager fragmentManager = activity.getSupportFragmentManager();
         Fragment detailsFragment = fragmentManager.findFragmentByTag(DetailsFragment.DETAILS_FRAGMENT_TAG);
