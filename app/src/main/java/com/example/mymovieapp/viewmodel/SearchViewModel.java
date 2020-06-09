@@ -15,7 +15,6 @@ import java.util.List;
 public class SearchViewModel extends AndroidViewModel
 {
     private MovieRepository movieRepository;
-    private MutableLiveData<Movie> currentSelectedMovie = new MutableLiveData<>();
 
     public SearchViewModel(Application application)
     {
@@ -23,14 +22,9 @@ public class SearchViewModel extends AndroidViewModel
         this.movieRepository = new MovieRepository(application);
     }
 
-    public LiveData<Movie> getCurrentSelectedMovie()
+    public LiveData<List<Movie>> getMovies()
     {
-        return currentSelectedMovie;
-    }
-
-    public void setCurrentSelectedMovie(Movie movie)
-    {
-        this.currentSelectedMovie.setValue(movie);
+        return movieRepository.getAllMovies();
     }
 
     public LiveData<List<Movie>> searchMovies(String query)

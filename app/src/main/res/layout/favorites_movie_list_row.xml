@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/border"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/favoriteMovieTitleTextViewId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:text="Movie Title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/favoriteMovieReleaseDateTextViewId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/favoriteMovieTitleTextViewId"
+            android:layout_marginEnd="6dp"
+            android:text="Release date"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/favoriteMovieReleaseDateValueTextViewId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/favoriteMovieTitleTextViewId"
+            android:layout_toEndOf="@id/favoriteMovieReleaseDateTextViewId"
+            android:text="2019-05-02"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <TextView
+            android:id="@+id/favoriteMovieNoteTextViewId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/favoriteMovieReleaseDateValueTextViewId"
+            android:layout_marginEnd="6dp"
+            android:text="Note"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/favoriteMovieNoteValueTextViewId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/favoriteMovieReleaseDateValueTextViewId"
+            android:layout_toEndOf="@id/favoriteMovieNoteTextViewId"
+            android:text="2019-05-02"
+            android:layout_marginBottom="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+    </RelativeLayout>
+</RelativeLayout>

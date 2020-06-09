@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient
 {
-    private static final String IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
+    public static final String IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
     private static final String BASE_URL = "https://api.themoviedb.org/3/";
     private static final String API_KEY = "26fde7d83066e38775d9c03328f2bba9";
 

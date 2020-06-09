@@ -50,7 +50,7 @@ public class Movie
     @SerializedName("backdrop_path")
     private String backdropImagePath;
 
-    private boolean watched = false;
+    private boolean watched;
 
     public Movie(int id, String title, String originalTitle, String description, String releaseDate, String language, String note, String nrOfVotes, String posterImagePath, String backdropImagePath, boolean watched)
     {

@@ -15,7 +15,10 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.mymovieapp.R;
 import com.example.mymovieapp.data.model.Movie;
+import com.example.mymovieapp.data.network.RetrofitClient;
+import com.example.mymovieapp.viewmodel.FavoritesViewModel;
 import com.example.mymovieapp.viewmodel.SearchViewModel;
+import com.squareup.picasso.Picasso;
 
 public class DetailsFragment extends Fragment
 {
@@ -33,8 +36,8 @@ public class DetailsFragment extends Fragment
         TextView noteTextView = rootView.findViewById(R.id.details_note_value_id);
         ImageView movieImageView = rootView.findViewById(R.id.details_image_id);
 
-        final SearchViewModel searchViewModel = new ViewModelProvider(getActivity()).get(SearchViewModel.class);
-        final Movie currentMovie = searchViewModel.getCurrentSelectedMovie().getValue();
+        final FavoritesViewModel favoritesViewModel = new ViewModelProvider(getActivity()).get(FavoritesViewModel.class);
+        final Movie currentMovie = favoritesViewModel.getCurrentSelectedMovie().getValue();
 
         if (currentMovie != null)
         {
@@ -42,6 +45,8 @@ public class DetailsFragment extends Fragment
             descriptionTextView.setText(currentMovie.getDescription());
             releaseDateTextView.setText(currentMovie.getReleaseDate());
             noteTextView.setText(currentMovie.getNote());
+
+            Picasso.get().load(RetrofitClient.IMAGE_URL +currentMovie.getPosterImagePath()).into(movieImageView);
         }
 
         return rootView;

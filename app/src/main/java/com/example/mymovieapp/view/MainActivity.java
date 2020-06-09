@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -16,6 +18,7 @@ import com.example.mymovieapp.R;
 import com.example.mymovieapp.view.fragments.favorites.FavoritesFragment;
 import com.example.mymovieapp.view.fragments.home.HomeFragment;
 import com.example.mymovieapp.view.fragments.search.SearchFragment;
+import com.example.mymovieapp.viewmodel.FavoritesViewModel;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
@@ -68,14 +71,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_favorite:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new FavoritesFragment())
+                        .replace(R.id.fragment_container, new FavoritesFragment(), FavoritesFragment.TAG)
+                        .addToBackStack(FavoritesFragment.TAG)
                         .commit();
                 break;
 
             case R.id.nav_search:
-                getSupportFragmentManager()
+                final FragmentManager supportFragmentManager = getSupportFragmentManager();
+//                Fragment searchFragment = supportFragmentManager.findFragmentByTag(SearchFragment.TAG);
+
+//                if (searchFragment == null)
+//                    searchFragment = new SearchFragment();
+
+                supportFragmentManager
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new SearchFragment())
+                        .replace(R.id.fragment_container, new SearchFragment(), SearchFragment.TAG)
+                        .addToBackStack(SearchFragment.TAG)
                         .commit();
                 break;
 

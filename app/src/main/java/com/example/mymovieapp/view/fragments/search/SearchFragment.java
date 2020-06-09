@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,83 +29,92 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SearchFragment extends Fragment implements SearchAdapter.RecyclerViewClickListener
+public class SearchFragment extends Fragment
 {
+    public static final String TAG = "searchFragment";
+
     private SearchViewModel searchViewModel;
     private ProgressBar progressBar;
     private RecyclerView myRecyclerView;
+    private SearchAdapter searchAdapter;
+    private EditText searchEditText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        final View rootView = inflater.inflate(R.layout.fragment_search, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
         progressBar = rootView.findViewById(R.id.progressBarId);
 
         myRecyclerView = rootView.findViewById(R.id.recyclerViewId);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        myRecyclerView.setHasFixedSize(true);
 
-        final SearchAdapter searchAdapter = new SearchAdapter();
-        searchAdapter.setOnRecyclerViewItemClickListener(this);
+        searchAdapter = new SearchAdapter();
         myRecyclerView.setAdapter(searchAdapter);
 
-        searchViewModel = new ViewModelProvider(getActivity()).get(SearchViewModel.class);
+        searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
+        searchRandomMovies();
 
         final ImageView searchIcon = rootView.findViewById(R.id.searchImageViewId);
-        final EditText searchEditText = rootView.findViewById(R.id.searchMovieEditTextId);
+        searchIcon.setOnClickListener(v -> searchMovie());
+
+        searchEditText = rootView.findViewById(R.id.searchMovieEditTextId);
+
         final FloatingActionButton saveFab = rootView.findViewById(R.id.floatingActionBtnId);
-        saveFab.setOnClickListener(v ->
-        {
-            final List<Movie> checkedMovies = searchAdapter.getCurrentList().stream()
-                    .filter(Movie::isWatched)
-                    .collect(Collectors.toList());
+        saveFab.setOnClickListener(v -> saveMovies());
 
-            if (checkedMovies.isEmpty())
-                Toast.makeText(getActivity(), "You don't have any checked movies to save", Toast.LENGTH_SHORT).show();
-            else
-            {
-                checkedMovies.forEach(movie -> searchViewModel.saveMovie(movie));
-                Toast.makeText(getContext(), "Checked movies were saved!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        searchIcon.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                progressBar.setVisibility(View.VISIBLE);
-                myRecyclerView.setEnabled(false);
-                final LiveData<List<Movie>> movieListLiveData = searchViewModel.searchMovies(searchEditText.getText().toString());
-                movieListLiveData.observe(getViewLifecycleOwner(), movies ->
-                {
-                    progressBar.setVisibility(View.GONE);
-                    myRecyclerView.setEnabled(true);
-                    
-                    searchAdapter.submitList(movies);
-                });
-            }
-        });
+        getActivity().setTitle("Search Movie");
 
         return rootView;
     }
 
-    @Override
-    public void onRecyclerViewItemClick(View view, Movie movie)
+    private void searchRandomMovies()
     {
-        searchViewModel.setCurrentSelectedMovie(movie);
-        AppCompatActivity activity = (AppCompatActivity) view.getContext();
-        final FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        Fragment detailsFragment = fragmentManager.findFragmentByTag(DetailsFragment.DETAILS_FRAGMENT_TAG);
+        showLoading();
+        final LiveData<List<Movie>> movieListLiveData = searchViewModel.getMovies();
+        movieListLiveData.observe(getViewLifecycleOwner(), movies ->
+        {
+            searchAdapter.submitList(movies);
+            hideLoading();
+        });
+    }
 
-        if (detailsFragment == null)
-            detailsFragment = new DetailsFragment();
+    private void searchMovie()
+    {
+        showLoading();
+        final LiveData<List<Movie>> movieListLiveData = searchViewModel.searchMovies(searchEditText.getText().toString());
+        movieListLiveData.observe(getViewLifecycleOwner(), movies ->
+        {
+            searchAdapter.submitList(movies);
+            hideLoading();
+        });
+    }
 
-        fragmentManager
-                .beginTransaction()
-                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                .replace(R.id.fragment_container, detailsFragment, DetailsFragment.DETAILS_FRAGMENT_TAG)
-                .addToBackStack(DetailsFragment.DETAILS_FRAGMENT_TAG)
-                .commit();
+    private void hideLoading()
+    {
+        progressBar.setVisibility(View.GONE);
+        myRecyclerView.setEnabled(true);
+    }
+
+    private void showLoading()
+    {
+        progressBar.setVisibility(View.VISIBLE);
+        myRecyclerView.setEnabled(false);
+    }
+
+    private void saveMovies()
+    {
+        final List<Movie> checkedMovies = searchAdapter.getCurrentList().stream()
+                .filter(Movie::isWatched)
+                .collect(Collectors.toList());
+
+        if (checkedMovies.isEmpty())
+            Toast.makeText(getActivity(), "You don't have any checked movies to save", Toast.LENGTH_SHORT).show();
+        else
+        {
+            checkedMovies.forEach(movie -> searchViewModel.saveMovie(movie));
+            Toast.makeText(getContext(), "Checked movies were saved!", Toast.LENGTH_SHORT).show();
+        }
     }
 }

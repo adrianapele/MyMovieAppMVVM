@@ -20,10 +20,22 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/movieDescTextViewId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:layout_below="@id/movieTitleTextViewId"
+            android:layout_marginBottom="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
+
+            />
+
+        <TextView
             android:id="@+id/movieReleaseDateTextViewId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/movieTitleTextViewId"
+            android:layout_below="@id/movieDescTextViewId"
             android:layout_marginEnd="6dp"
             android:layout_marginRight="6dp"
             android:text="Release date"
@@ -34,7 +46,7 @@
             android:id="@+id/movieReleaseDateValueTextViewId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/movieTitleTextViewId"
+            android:layout_below="@id/movieDescTextViewId"
             android:layout_toEndOf="@id/movieReleaseDateTextViewId"
             android:layout_toRightOf="@id/movieReleaseDateTextViewId"
             android:text="2019-05-02"
@@ -59,7 +71,16 @@
             android:layout_toEndOf="@id/movieNoteTextViewId"
             android:layout_toRightOf="@id/movieNoteTextViewId"
             android:text="2019-05-02"
+            android:layout_marginBottom="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <ImageView
+            android:id="@+id/movieImageViewId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/movieNoteValueTextViewId"
+            android:src="@drawable/ic_launcher_background"
+            />
 
         <CheckBox
             android:id="@+id/checkboxButtonId"
