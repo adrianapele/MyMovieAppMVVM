@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.mymovieapp.data.model.Movie;
@@ -11,15 +12,25 @@ import com.example.mymovieapp.data.repository.MovieRepository;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class FavoritesViewModel extends AndroidViewModel
 {
     private MovieRepository movieRepository;
     private MutableLiveData<Movie> currentSelectedMovie = new MutableLiveData<>();
 
+    private MediatorLiveData<List<Movie>> allSavedMovies = new MediatorLiveData<>();
+
     public FavoritesViewModel(Application application)
     {
         super(application);
         this.movieRepository = new MovieRepository(application);
+
+        allSavedMovies.addSource(movieRepository.getAllSavedMovies(), movies ->
+        {
+            allSavedMovies.postValue(movies);
+            Timber.i("saved movies in favorite view model %s", movies);
+        });
     }
 
     public LiveData<Movie> getCurrentSelectedMovie()
@@ -32,9 +43,9 @@ public class FavoritesViewModel extends AndroidViewModel
         this.currentSelectedMovie.setValue(movie);
     }
 
-    public LiveData<List<Movie>> getSavedMovies()
+    public MediatorLiveData<List<Movie>> getSavedMovies()
     {
-        return movieRepository.getAllSavedMovies();
+        return allSavedMovies;
     }
 
     public void deleteMovie(Movie movie)

@@ -18,17 +18,23 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class MovieRepository
 {
     private MovieDao movieDao;
     private RetrofitClient retrofitClient;
 
+    private LiveData<List<Movie>> allSavedMovies;
+
     public MovieRepository(Application application)
     {
         MovieDatabase database = MovieDatabase.getInstance(application);
-        movieDao = database.movieDao();
-        retrofitClient = new RetrofitClient();
+        this.movieDao = database.movieDao();
+        this.retrofitClient = new RetrofitClient();
+
+        this.allSavedMovies = movieDao.getAllSavedMovies();
+        Timber.i("All saved movies in repo %s", this.allSavedMovies.getValue());
     }
 
     public void insert(Movie movie)
@@ -38,7 +44,7 @@ public class MovieRepository
 
     public void update(Movie movie)
     {
-        new InsertMovieAsyncTask(movieDao).execute(movie);
+        new UpdateMovieAsyncTask(movieDao).execute(movie);
     }
 
     public void delete(Movie movie)
@@ -53,7 +59,7 @@ public class MovieRepository
 
     public LiveData<List<Movie>> getAllSavedMovies()
     {
-        return movieDao.getAllSavedMovies();
+        return allSavedMovies;
     }
 
     public LiveData<List<Movie>> searchMovies(String query)
@@ -108,12 +114,12 @@ public class MovieRepository
                         if (movieResponse != null)
                         {
                             data.setValue(movieResponse.getMovies());
-                            Log.i("MovieResponse", "#getAllMovies: Successfully got all movies");
+                            Timber.i("#getAllMovies: Successfully got all movies");
                         }
                         else
                         {
                             data.setValue(null);
-                            Log.e("MovieRepository", "#getAllMovies: Could not get all movies");
+                            Timber.e("#getAllMovies: Could not get all movies");
                         }
                     }
 
@@ -121,7 +127,7 @@ public class MovieRepository
                     public void onFailure(Call<MovieResponse> call, Throwable t)
                     {
                         data.setValue(null);
-                        Log.e("MovieRepository", "#getAllMovies: Could not get all movies", t);
+                        Timber.e(t, "#getAllMovies: Could not get all movies");
                     }
                 });
 

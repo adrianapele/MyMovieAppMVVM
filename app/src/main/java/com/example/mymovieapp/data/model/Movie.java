@@ -1,12 +1,13 @@
 package com.example.mymovieapp.data.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "movie_table_mvvm")
+@Entity
 public class Movie
 {
     @Expose
@@ -52,7 +53,7 @@ public class Movie
 
     private boolean watched;
 
-    public Movie(int id, String title, String originalTitle, String description, String releaseDate, String language, String note, String nrOfVotes, String posterImagePath, String backdropImagePath, boolean watched)
+    public Movie(int id, String title, String originalTitle, String description, String releaseDate, String language, String note, String nrOfVotes, String posterImagePath, String backdropImagePath)
     {
         this.id = id;
         this.title = title;
@@ -64,7 +65,6 @@ public class Movie
         this.nrOfVotes = nrOfVotes;
         this.posterImagePath = posterImagePath;
         this.backdropImagePath = backdropImagePath;
-        this.watched = watched;
     }
 
     public int getId()
@@ -125,5 +125,10 @@ public class Movie
     public boolean isWatched()
     {
         return watched;
+    }
+
+    public String toText()
+    {
+        return "Title: " +  title + ", Release date: " + releaseDate + ", Note: " + note;
     }
 }

@@ -2,9 +2,14 @@ package com.example.mymovieapp.view.fragments.favorites;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -18,6 +23,10 @@ import com.example.mymovieapp.data.model.Movie;
 import com.example.mymovieapp.view.adapters.FavoritesAdapter;
 import com.example.mymovieapp.view.fragments.details.DetailsFragment;
 import com.example.mymovieapp.viewmodel.FavoritesViewModel;
+
+import java.util.List;
+
+import timber.log.Timber;
 
 public class FavoritesFragment extends Fragment implements FavoritesAdapter.RecyclerViewClickListener
 {
@@ -39,8 +48,12 @@ public class FavoritesFragment extends Fragment implements FavoritesAdapter.Recy
         adapter.setOnRecyclerViewItemClickListener(this);
         recyclerView.setAdapter(adapter);
 
-        favoritesViewModel = new ViewModelProvider(this).get(FavoritesViewModel.class);
-        favoritesViewModel.getSavedMovies().observe(getViewLifecycleOwner(), adapter::submitList);
+        favoritesViewModel = new ViewModelProvider(getActivity()).get(FavoritesViewModel.class);
+        favoritesViewModel.getSavedMovies().observe(getViewLifecycleOwner(), movies ->
+        {
+            adapter.submitList(movies);
+            Timber.i("Saved movies in fragment %s", movies);
+        });
 
         getActivity().setTitle("Favorites");
 
@@ -50,6 +63,8 @@ public class FavoritesFragment extends Fragment implements FavoritesAdapter.Recy
     @Override
     public void onRecyclerViewItemClick(View view, Movie movie)
     {
+        favoritesViewModel.setCurrentSelectedMovie(movie);
+
         AppCompatActivity activity = (AppCompatActivity) view.getContext();
         final FragmentManager fragmentManager = activity.getSupportFragmentManager();
         Fragment detailsFragment = fragmentManager.findFragmentByTag(DetailsFragment.DETAILS_FRAGMENT_TAG);
@@ -64,6 +79,39 @@ public class FavoritesFragment extends Fragment implements FavoritesAdapter.Recy
                 .addToBackStack(DetailsFragment.DETAILS_FRAGMENT_TAG)
                 .commit();
 
-        favoritesViewModel.setCurrentSelectedMovie(movie);
+        Timber.i("Current selected movie %s", movie.getTitle());
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater)
+    {
+        inflater.inflate(R.menu.delete_all_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        if (item.getItemId() == R.id.delete_all_favorites_movie)
+        {
+            final List<Movie> allSavedMovies = favoritesViewModel.getSavedMovies().getValue();
+            if (allSavedMovies == null || allSavedMovies.size() == 0 )
+                Toast.makeText(getContext(), "You don't have saved movies to delete", Toast.LENGTH_SHORT).show();
+            else
+            {
+                favoritesViewModel.deleteAllMovies();
+                Toast.makeText(getContext(), "All saved movies were deleted", Toast.LENGTH_SHORT).show();
+            }
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

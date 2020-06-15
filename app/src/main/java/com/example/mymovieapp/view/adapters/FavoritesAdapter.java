@@ -3,8 +3,6 @@ package com.example.mymovieapp.view.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,9 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mymovieapp.R;
 import com.example.mymovieapp.data.model.Movie;
-import com.example.mymovieapp.data.network.RetrofitClient;
-import com.example.mymovieapp.view.MyRecyclerView;
-import com.squareup.picasso.Picasso;
 
 public class FavoritesAdapter extends ListAdapter<Movie, FavoritesAdapter.FavoritesViewHolder>
 {
@@ -65,7 +60,7 @@ public class FavoritesAdapter extends ListAdapter<Movie, FavoritesAdapter.Favori
     }
 
 
-    class FavoritesViewHolder extends MyRecyclerView.ViewHolder
+    class FavoritesViewHolder extends RecyclerView.ViewHolder
     {
         TextView movieTitleTextView;
         TextView movieYearTextView;

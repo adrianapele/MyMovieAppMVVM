@@ -10,24 +10,21 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mymovieapp.R;
 import com.example.mymovieapp.data.model.Movie;
 import com.example.mymovieapp.view.adapters.SearchAdapter;
-import com.example.mymovieapp.view.fragments.details.DetailsFragment;
 import com.example.mymovieapp.viewmodel.SearchViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import timber.log.Timber;
 
 public class SearchFragment extends Fragment
 {
@@ -44,7 +41,9 @@ public class SearchFragment extends Fragment
     {
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
-        progressBar = rootView.findViewById(R.id.progressBarId);
+        final ImageView searchIcon = rootView.findViewById(R.id.searchImageViewId);
+        searchIcon.setOnClickListener(v -> searchMovie());
+        searchEditText = rootView.findViewById(R.id.searchMovieEditTextId);
 
         myRecyclerView = rootView.findViewById(R.id.recyclerViewId);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -53,16 +52,13 @@ public class SearchFragment extends Fragment
         searchAdapter = new SearchAdapter();
         myRecyclerView.setAdapter(searchAdapter);
 
-        searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
-        searchRandomMovies();
-
-        final ImageView searchIcon = rootView.findViewById(R.id.searchImageViewId);
-        searchIcon.setOnClickListener(v -> searchMovie());
-
-        searchEditText = rootView.findViewById(R.id.searchMovieEditTextId);
-
         final FloatingActionButton saveFab = rootView.findViewById(R.id.floatingActionBtnId);
         saveFab.setOnClickListener(v -> saveMovies());
+
+        progressBar = rootView.findViewById(R.id.progressBarId);
+
+        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+        searchRandomMovies();
 
         getActivity().setTitle("Search Movie");
 
@@ -72,10 +68,10 @@ public class SearchFragment extends Fragment
     private void searchRandomMovies()
     {
         showLoading();
-        final LiveData<List<Movie>> movieListLiveData = searchViewModel.getMovies();
-        movieListLiveData.observe(getViewLifecycleOwner(), movies ->
+        searchViewModel.getMovies().observe(getViewLifecycleOwner(), movies ->
         {
             searchAdapter.submitList(movies);
+            Timber.i("search random movies %s", movies);
             hideLoading();
         });
     }
@@ -83,10 +79,10 @@ public class SearchFragment extends Fragment
     private void searchMovie()
     {
         showLoading();
-        final LiveData<List<Movie>> movieListLiveData = searchViewModel.searchMovies(searchEditText.getText().toString());
-        movieListLiveData.observe(getViewLifecycleOwner(), movies ->
+        searchViewModel.searchMovies(searchEditText.getText().toString()).observe(getViewLifecycleOwner(), movies ->
         {
             searchAdapter.submitList(movies);
+            Timber.i("search movies %s", movies);
             hideLoading();
         });
     }

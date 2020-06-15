@@ -4,27 +4,36 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.MediatorLiveData;
 
 import com.example.mymovieapp.data.model.Movie;
 import com.example.mymovieapp.data.repository.MovieRepository;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class SearchViewModel extends AndroidViewModel
 {
     private MovieRepository movieRepository;
+
+    private MediatorLiveData<List<Movie>> allMovies = new MediatorLiveData<>();
 
     public SearchViewModel(Application application)
     {
         super(application);
         this.movieRepository = new MovieRepository(application);
+
+        allMovies.addSource(movieRepository.getAllMovies(), movies ->
+        {
+            allMovies.postValue(movies);
+            Timber.i("all random movies in search view model %s", movies);
+        });
     }
 
-    public LiveData<List<Movie>> getMovies()
+    public MediatorLiveData<List<Movie>> getMovies()
     {
-        return movieRepository.getAllMovies();
+        return allMovies;
     }
 
     public LiveData<List<Movie>> searchMovies(String query)

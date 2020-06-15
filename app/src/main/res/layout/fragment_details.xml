@@ -1,77 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp"
     tools:context=".view.fragments.details.DetailsFragment">
 
-    <TextView
-        android:id="@+id/details_title_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/details_description_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/details_title_id"
-        android:layout_marginTop="8dp"
-        android:text="Description"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/details_title_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-    <TextView
-        android:id="@+id/details_release_date_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/details_description_id"
-        android:layout_marginEnd="6dp"
-        android:layout_marginTop="8dp"
-        android:text="Release date"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/details_description_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/details_title_id"
+            android:layout_marginTop="8dp"
+            android:text="Description"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/details_release_date_value_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_below="@id/details_description_id"
-        android:layout_toEndOf="@id/details_release_date_id"
-        android:text="2019-05-02"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <TextView
+            android:id="@+id/details_release_date_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/details_description_id"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="6dp"
+            android:text="Release date"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/details_note_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/details_release_date_id"
-        android:layout_marginEnd="6dp"
-        android:layout_marginTop="8dp"
-        android:text="Note"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/details_release_date_value_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/details_description_id"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@id/details_release_date_id"
+            android:text="2019-05-02"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-    <TextView
-        android:id="@+id/details_note_value_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_below="@id/details_release_date_value_id"
-        android:layout_toEndOf="@id/details_note_id"
-        android:text="2019-05-02"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <TextView
+            android:id="@+id/details_note_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/details_release_date_id"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="6dp"
+            android:text="Note"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold" />
 
-    <ImageView
-        android:layout_marginTop="8dp"
-        android:id="@+id/details_image_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/details_note_id"
-        android:src="@drawable/ic_launcher_background"/>
+        <TextView
+            android:id="@+id/details_note_value_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/details_release_date_value_id"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@id/details_note_id"
+            android:text="2019-05-02"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/details_image_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/details_note_id"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_launcher_background" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_below="@id/details_image_id"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/deleteButton"
+                style="@style/TextAppearance.AppCompat.Widget.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</ScrollView>
