@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mymovieapp.R;
 import com.example.mymovieapp.data.model.Movie;
+import com.example.mymovieapp.view.MyRecyclerView;
 
 public class FavoritesAdapter extends ListAdapter<Movie, FavoritesAdapter.FavoritesViewHolder>
 {
@@ -60,7 +61,7 @@ public class FavoritesAdapter extends ListAdapter<Movie, FavoritesAdapter.Favori
     }
 
 
-    class FavoritesViewHolder extends RecyclerView.ViewHolder
+    class FavoritesViewHolder extends MyRecyclerView.ViewHolder
     {
         TextView movieTitleTextView;
         TextView movieYearTextView;

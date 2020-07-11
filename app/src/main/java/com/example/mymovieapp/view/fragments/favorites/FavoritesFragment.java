@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mymovieapp.R;
 import com.example.mymovieapp.data.model.Movie;
+import com.example.mymovieapp.view.MyRecyclerView;
 import com.example.mymovieapp.view.adapters.FavoritesAdapter;
 import com.example.mymovieapp.view.fragments.details.DetailsFragment;
 import com.example.mymovieapp.viewmodel.FavoritesViewModel;
@@ -39,10 +41,13 @@ public class FavoritesFragment extends Fragment implements FavoritesAdapter.Recy
     {
         final View rootView = inflater.inflate(R.layout.fragment_favorites, container, false);
 
-        RecyclerView recyclerView = rootView.findViewById(R.id.favoritesRecyclerViewId);
+        MyRecyclerView recyclerView = rootView.findViewById(R.id.favoritesRecyclerViewId);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
+
+        final RelativeLayout emptyView = rootView.findViewById(R.id.emptyViewId);
+        recyclerView.setEmptyView(emptyView);
 
         FavoritesAdapter adapter = new FavoritesAdapter();
         adapter.setOnRecyclerViewItemClickListener(this);

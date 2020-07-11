@@ -6,10 +6,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".view.fragments.favorites.FavoritesFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.example.mymovieapp.view.MyRecyclerView
         android:id="@+id/favoritesRecyclerViewId"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/favorites_movie_list_row" />
+
+    <RelativeLayout
+        android:id="@+id/emptyViewId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/emptyTitleTextId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="18dp"
+            android:text="You don't have any favorite movies yet"
+            android:textAppearance="?android:textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/emptySubtitleTextId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/emptyTitleTextId"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="8dp"
+            android:text="You can start by adding a new movie"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="#A2AAB0" />
+
+<!--        <ImageView-->
+<!--            android:id="@+id/imageContainer"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/emptySubtitleTextId"-->
+<!--            android:src="@drawable/sadbox2"/>-->
+
+    </RelativeLayout>
 
 </RelativeLayout>
