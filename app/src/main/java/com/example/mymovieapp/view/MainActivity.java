@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 intent.putExtra(Intent.EXTRA_SUBJECT, "My Movie List");
                 intent.putExtra(Intent.EXTRA_TEXT, "Hi there! Checkout my favorite movie list: " + System.getProperty("line.separator") + savedMoviesToText);
                 startActivity(intent);
+                break;
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
